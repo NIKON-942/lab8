@@ -1,6 +1,4 @@
-﻿using lab8.Products;
-
-namespace lab8;
+﻿namespace lab8;
 
 public static class Program
 {

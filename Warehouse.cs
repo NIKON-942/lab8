@@ -33,10 +33,11 @@ public class Warehouse(string name)
     /// Removes a category by ID and reassigns its products to the default category.
     /// </summary>
     /// <param name="id">The ID of the category to remove.</param>
+    /// <exception cref="ArgumentException">Thrown when a passed ID equals 0.</exception>
     public void RemoveCategory(uint id)
     {
-        if (id == 0) //TODO error???
-            return;
+        if (id == 0)
+            throw new ArgumentException("Can't delete Default category");
         var category = Categories.FirstOrDefault(cat => cat.Id == id);
         if (category == null)
             return;
@@ -52,11 +53,13 @@ public class Warehouse(string name)
     /// <param name="id">The ID of the category to update.</param>
     /// <param name="newName">The new name for the category.</param>
     /// <returns>The ID of the updated category.</returns>
+    /// <exception cref="ArgumentException">Thrown when a category with passed ID does not exist</exception>
     public uint UpdateCategory(uint id, string newName)
     {
         var category = Categories.FirstOrDefault(cat => cat.Id == id);
-        if (category != null)
-            category.Name = newName;
+        if (category == null)
+            throw new ArgumentException($"Category with id = {id} does not exist");
+        category.Name = newName;
         return id;
     }
 
@@ -64,11 +67,12 @@ public class Warehouse(string name)
     /// Displays the details of a specific category with its products.
     /// </summary>
     /// <param name="id">The ID of the category to view.</param>
+    /// <exception cref="ArgumentException">Thrown when a category with passed ID does not exist</exception>
     public void ViewCategory(uint id)
     {
         var category = Categories.FirstOrDefault(cat => cat.Id == id);
         if (category == null)
-            return;
+            throw new ArgumentException($"Category with id = {id} does not exist");
         Console.WriteLine($"{category}:");
         var products = Products.ProductList.Where(prod => prod.Category!.Id == id);
         foreach (var prod in products)
@@ -110,12 +114,17 @@ public class Warehouse(string name)
     /// <param name="prodId">The ID of the product.</param>
     /// <param name="catId">The ID of the category to which the product will be assigned.</param>
     /// <returns>The ID of the product.</returns>
+    /// <exception cref="ArgumentException">Thrown when category or product with passed ID does not exist.</exception>
     public uint AddProductToCategory(uint prodId, uint catId)
     {
         var product = Products.ProductList.FirstOrDefault(prod => prod.Id == prodId);
         var category = Categories.FirstOrDefault(cat => cat.Id == catId);
         if (product != null && category != null)
             product.Category = category;
+        else if (product == null)
+            throw new ArgumentException($"Product with id = {prodId} does not exist");
+        else
+            throw new ArgumentException($"Category with id = {prodId} does not exist");
         return prodId;
     }
 
@@ -133,7 +142,7 @@ public class Warehouse(string name)
     }
 
     /// <summary>
-    /// Removes product from warehouse.
+    /// Removes product from a warehouse.
     /// </summary>
     /// <param name="id">The ID of the product to remove.</param>
     public void RemoveProduct(uint id)
@@ -170,9 +179,8 @@ public class Warehouse(string name)
     public void RemoveSupplier(uint suppId)
     {
         var supplier = Suppliers.SupplierList.FirstOrDefault(supp => supp.Id == suppId);
-        if (supplier == null)
-            return;
-        Suppliers.SupplierList.Remove(supplier);
+        if (supplier != null)
+            Suppliers.SupplierList.Remove(supplier);
     }
 
     /// <summary>

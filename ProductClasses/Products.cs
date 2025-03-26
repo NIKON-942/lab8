@@ -16,7 +16,7 @@ public class Products : ISearchable<Product>, ISortable<Products>
     /// <returns>A list of products matching the search criteria.</returns>
     public List<Product> Search(string keyword) =>
         ProductList.Where(prod => prod.Name.ToLower().Contains(keyword.ToLower()) 
-                                      || prod.Manufacturer.ToLower().Contains(keyword.ToLower())).ToList();
+                                       || prod.Manufacturer.ToLower().Contains(keyword.ToLower())).ToList();
 
     /// <summary>
     /// Sorts the list of products based on the specified criteria.

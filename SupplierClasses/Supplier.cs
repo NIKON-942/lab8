@@ -10,13 +10,10 @@ public class Supplier(string name, string surname, string email)
     public string Surname { get; set; } = surname;
     public string Email { get; set; } = email;
 
-    public override string ToString() =>
-        $"({Id}) {Name} {Surname} - {Email}";
-
     /// <summary>
     /// Returns a string containing the supplier's information.
     /// </summary>
-    /// <returns>A formatted string with the supplier's name, surname, and email.</returns>
-    public string Info() => 
-        $"Supplier[name={Name}, surname={Surname}, email={Email}]";
+    /// <returns>A formatted string with the supplier's name, surname and email.</returns>
+    public override string ToString() =>
+        $"({Id}) {Name} {Surname} - {Email}";
 }

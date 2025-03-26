@@ -2,5 +2,5 @@
 
 public interface ISortable<T>
 {
-    List<T> Sort(string criteria, bool ascending);
+    T Sort(string criteria, bool ascending);
 }

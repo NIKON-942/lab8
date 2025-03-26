@@ -48,7 +48,7 @@ public class Product
     /// </summary>
     /// <returns>A string containing the manufacturer, name and price of the product.</returns>
     public override string ToString() => 
-        $"{Manufacturer} {Name} : {Price}$";
+        $"({Id}) {Manufacturer, -12} {Name, -12} : {Price}$";
 
     /// <summary>
     /// Returns detailed information about the product.

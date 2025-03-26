@@ -35,6 +35,8 @@ public class Warehouse(string name)
     /// <param name="id">The ID of the category to remove.</param>
     public void RemoveCategory(uint id)
     {
+        if (id == 0) //TODO error???
+            return;
         var category = Categories.FirstOrDefault(cat => cat.Id == id);
         if (category == null)
             return;
@@ -78,7 +80,7 @@ public class Warehouse(string name)
     /// </summary>
     public void ViewAllCategories()
     {
-        Console.WriteLine("All categories:");
+        Console.WriteLine($"All categories ({Name}):");
         foreach (var cat in Categories)
         {
             Console.WriteLine($"\t{cat}:");
@@ -122,12 +124,23 @@ public class Warehouse(string name)
     /// </summary>
     /// <param name="prodId">The ID of the product to update.</param>
     /// <returns>The ID of the product.</returns>
-    public uint DeleteProductFromCategory(uint prodId)
+    public uint RemoveProductFromCategory(uint prodId)
     {
         var product = Products.ProductList.FirstOrDefault(prod => prod.Id == prodId);
         if (product != null)
             product.Category = Categories[0];
         return prodId;
+    }
+
+    /// <summary>
+    /// Removes product from warehouse.
+    /// </summary>
+    /// <param name="id">The ID of the product to remove.</param>
+    public void RemoveProduct(uint id)
+    {
+        var product = Products.ProductList.FirstOrDefault(prod => prod.Id == id);
+        if (product != null)
+            Products.ProductList.Remove(product);
     }
 
     /// <summary>

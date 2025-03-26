@@ -5,9 +5,9 @@ namespace lab8.ProductClasses;
 /// <summary>
 /// Represents a collection of products.
 /// </summary>
-public class Products : ISearchable<Product>, ISortable<Product>
+public class Products : ISearchable<Product>, ISortable<Products>
 {
-    public readonly List<Product> ProductList = [];
+    public List<Product> ProductList = [];
     
     /// <summary>
     /// Searches for products that contain the specified keyword in their name or manufacturer.
@@ -25,9 +25,9 @@ public class Products : ISearchable<Product>, ISortable<Product>
     /// <param name="ascending">If <c>true</c>, sorts in ascending order; otherwise, sorts in descending order.</param>
     /// <returns>A sorted list of products.</returns>
     /// <exception cref="ArgumentException">Thrown when an invalid criteria is provided.</exception>
-    public List<Product> Sort(string criteria, bool ascending = true)
+    public Products Sort(string criteria, bool ascending = true)
     {
-        var result = criteria switch
+        ProductList = criteria switch
         {
             "name" => ProductList.OrderBy(prod => prod.Name).ToList(),
             "manufacturer" => ProductList.OrderBy(prod => prod.Manufacturer).ToList(),
@@ -36,8 +36,18 @@ public class Products : ISearchable<Product>, ISortable<Product>
         };
 
         if (!ascending)
-            result.Reverse();
+            ProductList.Reverse();
 
-        return result;
+        return this;
+    }
+
+    /// <summary>
+    /// Prints list of all products
+    /// </summary>
+    public void PrintList()
+    {
+        Console.WriteLine("List of products");
+        foreach (var prod in ProductList)
+            Console.WriteLine("\t" + prod);
     }
 }

@@ -18,7 +18,7 @@ public class Food(string name, string manufacturer, uint amount, uint price, Dat
     /// </summary>
     /// <returns>A string containing the manufacturer, name, expiration date and price.</returns>
     public override string ToString() => 
-        $"{Manufacturer} {Name} (use to {ExpirationDate}): {Price}$";
+        $"({Id}) {Manufacturer, -12} {Name, -12} (use to {ExpirationDate}): {Price}$";
     
     /// <summary>
     /// Returns detailed information about the food product.

@@ -18,7 +18,7 @@ public class Shoes(string name, string manufacturer, uint amount, uint price, ui
     /// </summary>
     /// <returns>A string containing the manufacturer, name, size and price.</returns>
     public override string ToString() => 
-        $"{Manufacturer} {Name} ({Size} size): {Price}$";
+        $"({Id}) {Manufacturer, -12} {Name, -12} ({Size} size): {Price}$";
     
     /// <summary>
     /// Returns detailed information about the shoes.

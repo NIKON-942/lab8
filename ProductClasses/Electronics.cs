@@ -18,7 +18,7 @@ public class Electronics(string name, string manufacturer, uint amount, uint pri
     /// </summary>
     /// <returns>A string containing the manufacturer, name, energy consumption and price.</returns>
     public override string ToString() => 
-        $"{Manufacturer} {Name} ({EnergyConsumption}W): {Price}$";
+        $"({Id}) {Manufacturer, -12} {Name, -12} ({EnergyConsumption}W): {Price}$";
     
     /// <summary>
     /// Returns detailed information about the electronics product.

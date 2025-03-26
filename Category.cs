@@ -13,5 +13,5 @@ public class Category(string name)
     /// </summary>
     /// <returns>A string that represents the category.</returns>
     public override string ToString() => 
-        $"Category({Name})";
+        $"Category({Name}, id={Id})";
 }

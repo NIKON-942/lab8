@@ -16,7 +16,7 @@ public class Suppliers : ISearchable<Supplier>, ISortable<Suppliers>
     /// <returns>A list of suppliers that match the search criteria.</returns>
     public List<Supplier> Search(string keyword) => 
         SupplierList.Where(supp => supp.Name.ToLower().Contains(keyword.ToLower()) 
-                                       || supp.Surname.ToLower().Contains(keyword.ToLower())).ToList();
+                                   || supp.Surname.ToLower().Contains(keyword.ToLower())).ToList();
 
     /// <summary>
     /// Sorts the list of suppliers based on the specified criteria.

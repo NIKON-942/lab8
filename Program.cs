@@ -1,5 +1,4 @@
-﻿using System.Transactions;
-using lab8.ProductClasses;
+﻿using lab8.ProductClasses;
 using lab8.SupplierClasses;
 
 namespace lab8;
@@ -10,66 +9,68 @@ public static class Program
     {
         var warehouse = new Warehouse("Auchan");
         Console.WriteLine("Creating new categories");
-        warehouse.ViewAllCategories();
-        warehouse.AddCategory("Bakery");
-        warehouse.AddCategory("Recreation");
-        warehouse.AddCategory("Household");
-        warehouse.ViewAllCategories();
+        warehouse.Categories.ViewAllCategories();
+        warehouse.Categories.AddCategory("Bakery");
+        warehouse.Categories.AddCategory("Recreation");
+        warehouse.Categories.AddCategory("Household");
+        warehouse.Categories.AddCategory("Test");
+        warehouse.Categories.ViewAllCategories();
         
         Console.WriteLine("Removing category with id = 2");
-        warehouse.RemoveCategory(2);
-        warehouse.ViewAllCategories();
+        warehouse.Categories.RemoveCategory(2);
+        warehouse.Categories.ViewAllCategories();
         
         Console.WriteLine("Updating category with id = 3 to \"Garden\"");
-        warehouse.UpdateCategory(3, "Garden");
-        warehouse.ViewAllCategories();
+        warehouse.Categories.UpdateCategory(3, "Garden");
+        warehouse.Categories.UpdateCategory(4, "TestTest");
+        warehouse.Categories.ViewAllCategories();
         
         var product1 = new Product("Scissors", "Scotch", 150, 4);
         var product2 = new Electronics("Mixer", "Bosch", 10, 30, 400);
         var product3 = new Food("Pizza", "Chicago Town", 30, 5, new DateOnly(2025, 04, 12));
         var product4 = new Shoes("Air Jordan", "Nike", 20, 120, 43);
-        var product5 = new Food("Bread", "Farm", 40, 2, new DateOnly(2025, 03, 30));
+        var product5 = new Food("Bar", "Roshen", 400, 2, new DateOnly(2025, 04, 30));
 
         Console.WriteLine("Adding products to categories");
-        warehouse.AddProduct(product1, 3);
-        warehouse.AddProduct(product2, 1);
-        warehouse.AddProduct(product3, 1);
-        warehouse.AddProduct(product4);
-        warehouse.AddProduct(product5, 1);
-        warehouse.ViewAllCategories();
+        warehouse.Products.AddProduct(product1, 3);
+        warehouse.Products.AddProduct(product2, 1);
+        warehouse.Products.AddProduct(product3, 1);
+        warehouse.Products.AddProduct(product4);
+        warehouse.Products.AddProduct(product5, 1);
+        warehouse.Categories.ViewAllCategories();
         
         Console.WriteLine("Removing product with id = 4 from category");
-        warehouse.RemoveProductFromCategory(4);
-        warehouse.ViewAllCategories();
+        warehouse.Products.RemoveProductFromCategory(4);
+        warehouse.Categories.ViewAllCategories();
         
-        Console.WriteLine("Removing product with id = 4 from warehouse");
-        warehouse.RemoveProduct(4);
-        warehouse.ViewAllCategories();
+        Console.WriteLine("Removing product with id = 2 from warehouse");
+        warehouse.Products.RemoveProduct(2);
+        warehouse.Categories.ViewAllCategories();
 
         Console.WriteLine("Changing product data for id = 3");
-        var productToChange = warehouse.GetProduct(3);
+        var productToChange = warehouse.Products.GetProduct(3);
         if (productToChange != null)
         {
             productToChange.Name = "Air Force";
             productToChange.Price = 110;
-            warehouse.ViewAllCategories();
+            warehouse.Categories.ViewAllCategories();
         }
         
         Console.WriteLine("Increasing quantity of product with id = 2");
-        var productToAddQuantity = warehouse.GetProduct(2);
+        var productToAddQuantity = warehouse.Products.GetProduct(2);
         if (productToAddQuantity != null)
         {
             Console.WriteLine($"Before: {productToAddQuantity.Info()}");
-            productToAddQuantity.AddQuantity(25);
+            productToAddQuantity.ChangeQuantity(25);
             Console.WriteLine($"After: {productToAddQuantity.Info()}");
         }
         
         Console.WriteLine("Sorting list of products by name in ascending order");
-        warehouse.Products.Sort("name").PrintList();
+        Console.WriteLine(warehouse.Products.Sort("name").Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
         Console.WriteLine("Sorting list of products by a manufacturer in descending order");
-        warehouse.Products.Sort("manufacturer", false).PrintList();
+        Console.WriteLine(warehouse.Products.Sort("manufacturer", false).Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
         Console.WriteLine("Sorting list of products by a price in ascending order");
-        warehouse.Products.Sort("price").PrintList();
+        Console.WriteLine(warehouse.Products.Sort("price").Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
         
         Console.WriteLine("Adding new suppliers");
         var supplier1 = new Supplier("Mykola", "Zelenskyy", "mykolka@gmail.com");
@@ -77,14 +78,18 @@ public static class Program
         var supplier3 = new Supplier("Andrii", "Osadchyk", "andrew.ua.22@gmail.com");
         var supplier4 = new Supplier("Anton", "Mbappe", "antonio@gmail.com");
 
-        warehouse.AddSupplier(supplier1);
-        warehouse.AddSupplier(supplier2);
-        warehouse.AddSupplier(supplier3);
-        warehouse.AddSupplier(supplier4);
+        warehouse.Suppliers.AddSupplier(supplier1);
+        warehouse.Suppliers.AddSupplier(supplier2);
+        warehouse.Suppliers.AddSupplier(supplier3);
+        warehouse.Suppliers.AddSupplier(supplier4);
+        warehouse.Suppliers.PrintList();
+
+        var supplier5 = new Supplier("Test", "Testovych", "test@gmail.com");
+        warehouse.Suppliers.AddSupplier(supplier5);
         warehouse.Suppliers.PrintList();
         
         Console.WriteLine("Changing supplier data for id = 1");
-        var supplierToChange = warehouse.GetSupplier(1);
+        var supplierToChange = warehouse.Suppliers.GetSupplier(1);
         if (supplierToChange != null)
         {
             supplierToChange.Name = "Taras";
@@ -92,9 +97,9 @@ public static class Program
         Console.WriteLine($"Changed supplier with id = 1: {supplierToChange}");
         
         Console.WriteLine("Sorting list of suppliers by name in ascending order");
-        warehouse.Suppliers.Sort("name").PrintList();
+        Console.WriteLine(warehouse.Suppliers.Sort("name").Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
         Console.WriteLine("Sorting list of suppliers by surname in descending order");
-        warehouse.Suppliers.Sort("surname", false).PrintList();
+        Console.WriteLine(warehouse.Suppliers.Sort("surname", false).Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
         
         Console.WriteLine("Trying to search in products by keyword \"sc\"");
         Console.Write(warehouse.Products.Search("sc").Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
@@ -107,5 +112,10 @@ public static class Program
         
         Console.WriteLine("Trying to search in suppliers by keyword \"zelen\"");
         Console.Write(warehouse.Suppliers.Search("zelen").Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
+        
+        Console.WriteLine("---------");
+        Console.Write(warehouse.Suppliers.Search("123123").Aggregate("\t", (s, product) => s + product + Environment.NewLine + "\t", s => s + Environment.NewLine));
+
+        Console.ReadLine();
     }
 }

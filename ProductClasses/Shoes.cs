@@ -11,7 +11,7 @@
 public class Shoes(string name, string manufacturer, uint amount, uint price, uint size) : 
     Product(name, manufacturer, amount, price)
 {
-    private uint Size { get; } = size;
+    public uint Size { get; } = size;
     
     /// <summary>
     /// Returns a short string representation of the shoes.

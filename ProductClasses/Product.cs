@@ -2,11 +2,11 @@
 
 public class Product
 {
-    public uint Id { get; set; }
+    public uint Id { get; internal set; }
     public string Name { get; set; }
     public string Manufacturer { get; set; }
-    public Category? Category { get; set; }
-    public uint Amount { get; set; }
+    public Category? Category { get; internal set; }
+    public uint Amount { get; private set; }
 
     private decimal _price;
     public decimal Price
@@ -34,14 +34,19 @@ public class Product
         Amount = amount;
         Price = price;
     }
-
+    
     /// <summary>
-    /// Adds the specified quantity to the current amount of the product.
+    /// Add passed value to quantity.
     /// </summary>
     /// <param name="quantity">The quantity to add.</param>
     /// <returns>The new total quantity of the product.</returns>
-    public uint AddQuantity(uint quantity) => 
-        Amount += quantity;
+    public uint ChangeQuantity(int quantity)
+    {
+        if (Amount + quantity < 0)
+            throw new ArgumentException("Resulting quantity cannot be negative");
+        Amount = (uint)(Amount + quantity);
+        return Amount;
+    }
 
     /// <summary>
     /// Returns a short string representation of the product.

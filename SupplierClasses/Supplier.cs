@@ -5,7 +5,7 @@
 /// </summary>
 public class Supplier(string name, string surname, string email)
 {
-    public uint Id { get; set; } 
+    public uint Id { get; internal set; } 
     public string Name { get; set; } = name;
     public string Surname { get; set; } = surname;
     public string Email { get; set; } = email;

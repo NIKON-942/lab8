@@ -38,6 +38,8 @@ public static class Program
         warehouse.Products.AddProduct(product4);
         warehouse.Products.AddProduct(product5, 1);
         warehouse.Categories.ViewAllCategories();
+
+        Console.WriteLine("----" + warehouse.Categories.GetCategoryById(1));
         
         Console.WriteLine("Removing product with id = 4 from category");
         warehouse.Products.RemoveProductFromCategory(4);
